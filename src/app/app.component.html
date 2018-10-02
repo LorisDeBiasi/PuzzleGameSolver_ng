@@ -1,0 +1,17 @@
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+
+<div class="container">
+  <table class="table">
+    <tbody>
+
+      <tr *ngFor="let line of game.getPiecesList()">
+        <td *ngFor="let piece of line">{{piece.value}}</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
