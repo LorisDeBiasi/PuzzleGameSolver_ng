@@ -4,6 +4,7 @@ export class Game {
 
     //
 	private board:Board;
+    //tree
 
     //
 	public constructor() {

@@ -7,4 +7,12 @@ export class Piece {
 	public constructor(value: number) {
         this.value = value;
     }
+
+    public getValue() {
+    	return this.value;
+    }
+
+    public setValue(value: number) {
+    	return this.value = value;
+    }
 }
