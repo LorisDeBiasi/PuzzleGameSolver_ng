@@ -1,6 +1,6 @@
 <div style="text-align:center">
   <h1>
-    Welcome to {{ title }}!
+    {{ title }}
   </h1>
 </div>
 
@@ -9,9 +9,26 @@
     <tbody>
 
       <tr *ngFor="let line of game.getPiecesList()">
-        <td *ngFor="let piece of line">{{piece.value}}</td>
+        <td *ngFor="let piece of line">
+          <input type="text" value="{{piece.value}}">
+        </td>
       </tr>
 
     </tbody>
   </table>
+
+  <button (click)="this.game.board.movePiece(direction.Up)">up</button>
+  <button (click)="this.game.board.movePiece(direction.Down)">down</button>
+  <button (click)="this.game.board.movePiece(direction.Left)">left</button>
+  <button (click)="this.game.board.movePiece(direction.Right)">right</button>
+  <button (click)="this.game.board.randomizeBoard(100)">random</button>
+  <button (click)="isCleared = this.game.board.isCleared()">isCleared</button>
+  <button (click)="checkMove = this.game.board.checkMove()">checkMove</button>
+  <p>is cleared : {{isCleared}}</p>
+  <p>possible moves : {{checkMove}}</p>
+
+
+  <button (click)="nbMove = this.game.clearPuzzle()">checkMove</button>
+  <p>number of moves : {{nbMove}}</p>
+
 </div>

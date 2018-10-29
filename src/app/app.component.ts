@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Game } from './game';
+import { Direction } from './direction';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,8 @@ import { Game } from './game';
 
 export class AppComponent {
   title = 'PuzzleGame';
-  game = new Game();
+  game = new Game(3, 3);
+
+  //Store a reference to the enum
+  direction = Direction;
 }
