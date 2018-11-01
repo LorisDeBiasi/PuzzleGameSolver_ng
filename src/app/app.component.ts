@@ -12,13 +12,15 @@ import { BlindSearch } from './blind-search';
 
 export class AppComponent {
   title = 'PuzzleGame';
-  game = new BlindSearch(3, 3);
+  //solver = new BlindSearch(3, 3);
+  solver = new HeuristicSearch(3, 3);
 
   //Store a reference to the enum
   direction = Direction;
 
-  // Create an empty nbMove (used to store clearPuzzle)
-  nbMove = [];
+  // Create an empty result (used to store clearPuzzle)
+  result = [];
 
+  // default value
   nbRandomize = 10;
 }

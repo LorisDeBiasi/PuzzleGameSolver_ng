@@ -7,14 +7,12 @@ export class Board {
 	private sizeX: number;
 	private sizeY: number;
 	private pieces: Piece[][];
-    private moveSinceCreated: Direction[];
 
 	//
 	public constructor(sizeX, sizeY: number) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.pieces = new Array();
-        this.moveSinceCreated = new Array();
 
         let startingValue: number = 1;
 
@@ -31,12 +29,27 @@ export class Board {
 
     //
     public getSizeX(): number {
-    	return this.sizeX;
+        return this.sizeX;
     }
 
     //
     public getSizeY(): number {
-    	return this.sizeY;
+        return this.sizeY;
+    }
+
+    //
+    public setSizeX(value: number) {
+        return this.sizeX = value;
+    }
+
+    //
+    public setSizeY(value: number) {
+        return this.sizeY = value;
+    }
+
+    //
+    public getPieceValue(y, x: number): number {
+        return this.pieces[y][x].getValue();
     }
 
     //
@@ -44,34 +57,20 @@ export class Board {
     	return this.pieces;
     }
 
-    //
-    public getMoveSinceCreated(): Direction[] {
-        return this.moveSinceCreated;
+    public loadPieces(pieces: number[][]) {
+        for (var y = 0; y < this.getSizeY(); ++y) {
+            for (var x = 0; x < this.getSizeX(); ++x) {
+                this.pieces[y][x].setValue(pieces[y][x])
+            }
+        }
     }
 
-    //
-    public resetMoveSinceCreated() {
-        this.moveSinceCreated = new Array();
-    }
-
-    //
-    public loadBoard(newBoard: Board) {
-        this.sizeX = newBoard.sizeX;
-        this.sizeY = newBoard.sizeX;
-        this.copyPieces(newBoard);
-        this.moveSinceCreated = Array.from(newBoard.moveSinceCreated);
-    }
-
-    private copyPieces(newBoard: Board) {
+    public copyPieces(newBoard: Board) {
         for (var y = 0; y < this.sizeY; ++y) {
             for (var x = 0; x < this.sizeX; ++x) {
                 this.pieces[y][x].setValue(newBoard.pieces[y][x].getValue());
             }
         }
-    }
-
-    public addToMove(direction: Direction) {
-        this.moveSinceCreated.push(direction);
     }
 
     //
@@ -81,17 +80,17 @@ export class Board {
 
             switch (op) {
                 case 1:
-                    this.movePiece(Direction.Up);
-                    break;
+                this.movePiece(Direction.Up);
+                break;
                 case 2:
-                    this.movePiece(Direction.Down);
-                    break;
+                this.movePiece(Direction.Down);
+                break;
                 case 3:
-                    this.movePiece(Direction.Left);
-                    break;
+                this.movePiece(Direction.Left);
+                break;
                 case 4:
-                    this.movePiece(Direction.Right);
-                    break;
+                this.movePiece(Direction.Right);
+                break;
             }
         }
     }
@@ -143,53 +142,37 @@ export class Board {
             if (zeroIndex[0] > 0) {
                 this.pieces[zeroIndex[0]][zeroIndex[1]].setValue(this.pieces[zeroIndex[0]-1][zeroIndex[1]].getValue());
                 this.pieces[zeroIndex[0]-1][zeroIndex[1]].setValue(0);
-                this.addToMove(Direction.Up);
             }
         }
         else if (direction == Direction.Down) {
             if (zeroIndex[0] < this.sizeY-1) {
                 this.pieces[zeroIndex[0]][zeroIndex[1]].setValue(this.pieces[zeroIndex[0]+1][zeroIndex[1]].getValue());
                 this.pieces[zeroIndex[0]+1][zeroIndex[1]].setValue(0);
-                this.addToMove(Direction.Down);
             }
         }
         else if (direction == Direction.Left) {
             if (zeroIndex[1] > 0) {
                 this.pieces[zeroIndex[0]][zeroIndex[1]].setValue(this.pieces[zeroIndex[0]][zeroIndex[1]-1].getValue());
                 this.pieces[zeroIndex[0]][zeroIndex[1]-1].setValue(0);
-                this.addToMove(Direction.Left);
             }
         }
         else if (direction == Direction.Right) {
             if (zeroIndex[1] < this.sizeX-1) {
                 this.pieces[zeroIndex[0]][zeroIndex[1]].setValue(this.pieces[zeroIndex[0]][zeroIndex[1]+1].getValue());
                 this.pieces[zeroIndex[0]][zeroIndex[1]+1].setValue(0);
-                this.addToMove(Direction.Right);
             }
         }
     }
 
-    public isCleared(): boolean {
+    //
+    public isCleared(board: Board): boolean {
         let isCleared: boolean = true;
-        let value: number = 1;
 
         for (var y = 0; y < this.sizeY; ++y) {
             for (var x = 0; x < this.sizeX; ++x) {
-
-                // Check if all the index have the right value
-                if (y < this.sizeY - 1 && x < this.sizeX - 1) {
-                    if (this.pieces[y][x].getValue() != value) {
-                        isCleared = false;
-                    }
+                if (this.pieces[y][x].getValue() != board.pieces[y][x].getValue()) {
+                    isCleared = false;
                 }
-                // Check if the last value equals 0
-                else {
-                    if (this.pieces[this.sizeY-1][this.sizeX-1].getValue() != 0) {
-                        isCleared = false;
-                    }
-                }
-
-                ++value;
             }
         }
 

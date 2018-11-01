@@ -1,57 +1,64 @@
 import { Board } from './board';
 import { Piece } from './piece';
 import { Direction } from './direction';
+import { Node } from './node';
 
 export class Solver {
 
     //
-	public board: Board;
-	//
+    public node: Node;
+	public wantedBoard: Board;
     public seenBoard: string[];
+
+	protected maxMoves: number = 1000000;
 
     //
 	public constructor(boardSizeY, boardSizeX: number) {
-        this.board = new Board(boardSizeY, boardSizeX);
+		this.node = new Node(boardSizeY, boardSizeX);
+
+        this.wantedBoard = new Board(boardSizeY, boardSizeX);
+        this.wantedBoard.loadPieces([[1,2,3],[4,5,6],[7,8,0]]);// temporary
+    }
+
+	//
+    public randomizeBoard(nbOp: number) {
+    	this.node.randomizeBoard(nbOp);
     }
 
     //
-    public loadBoard() {
-
+    public getPieces() {
+    	return this.node.getPieces();
     }
 
     //
-    public randomizeBoard() {
-
+    public addToSeenBoard(pieces: Piece[][]) {
+        this.seenBoard.push(this.piecesToString(pieces))
     }
 
     //
-    public getPiecesList() {
-    	return this.board.getPieces();
-    }
-
-    //
-    public existInSeenBoard(board: Board): boolean {
+    public existInSeenBoard(node: Node): boolean {
         var result: boolean = false;
 
+        //
         for (let stringBoard of this.seenBoard) {
-            if (stringBoard == this.piecesToString(board)) {
+            if (stringBoard == this.piecesToString(node.getPieces())) {
                 result = true;
             }
+        }
+
+        //
+        if (result == true) {
+        	this.addToSeenBoard(node.getPieces())
         }
 
         return result;
     }
 
     //
-    public addToSeenBoard(board: Board) {
-        this.seenBoard.push(this.piecesToString(board))
-    }
-
-    //
-    public piecesToString(board: Board): string {
+    public piecesToString(pieces: Piece[][]): string {
         var result: string = "";
 
-        for (let line of board.getPieces()) {
+        for (let line of pieces) {
             for (let piece of line) {
                 result += piece.getValue();
             }

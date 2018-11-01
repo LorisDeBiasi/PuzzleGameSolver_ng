@@ -8,7 +8,7 @@
   <table class="table">
     <tbody>
 
-      <tr *ngFor="let line of game.getPiecesList()">
+      <tr *ngFor="let line of solver.getPieces()">
         <td *ngFor="let piece of line">
           <input type="text" [(ngModel)]="piece.value">
         </td>
@@ -17,24 +17,24 @@
     </tbody>
   </table>
 
-  <button style="margin-left: 1cm" (click)="this.game.board.movePiece(direction.Up)">up</button><br>
-  <button (click)="this.game.board.movePiece(direction.Left)">left</button>
-  <button style="margin-left: 0.9cm" (click)="this.game.board.movePiece(direction.Right)">right</button><br>
-  <button style="margin-left: 0.8cm" (click)="this.game.board.movePiece(direction.Down)">down</button>
+  <button style="margin-left: 1cm" (click)="this.solver.node.movePiece(direction.Up)">up</button><br>
+  <button (click)="this.solver.node.movePiece(direction.Left)">left</button>
+  <button style="margin-left: 0.9cm" (click)="this.solver.node.movePiece(direction.Right)">right</button><br>
+  <button style="margin-left: 0.8cm" (click)="this.solver.node.movePiece(direction.Down)">down</button>
 
   <br><br>
 
-  <button (click)="this.game.board.randomizeBoard(nbRandomize)">randomize</button>
+  <button (click)="this.solver.randomizeBoard(nbRandomize)">randomize</button>
   <input type="text" [(ngModel)]="nbRandomize">
 
-  <!--<button (click)="isCleared = this.game.board.isCleared()">isCleared</button>
-  <button (click)="checkMove = this.game.board.checkMove()">checkMove</button>
+  <!--<button (click)="isCleared = this.solver.board.isCleared()">isCleared</button>
+  <button (click)="checkMove = this.solver.board.checkMove()">checkMove</button>
   <p>is cleared : {{isCleared}}</p>
   <p>possible moves : {{checkMove}}</p>-->
 
   <br><br>
-  <button (click)="nbMove = this.game.clearPuzzleWithSeenBoard()">Solve</button>
-  <p>number of states explored : {{nbMove[0]}}</p>
-  <p>list of moves : {{nbMove[1]}}</p>
+  <button (click)="result = this.solver.clearPuzzle()">Solve</button>
+  <p>number of states explored : {{result[0]}}</p>
+  <p>list of moves : {{result[1]}}</p>
 
 </div>
