@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { Game } from './game';
 import { Direction } from './direction';
+import { Solver } from './solver';
+import { HeuristicSearch } from './heuristic-search';
+import { BlindSearch } from './blind-search';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +12,13 @@ import { Direction } from './direction';
 
 export class AppComponent {
   title = 'PuzzleGame';
-  game = new Game(3, 3);
+  game = new BlindSearch(3, 3);
 
   //Store a reference to the enum
   direction = Direction;
+
+  // Create an empty nbMove (used to store clearPuzzle)
+  nbMove = [];
+
+  nbRandomize = 10;
 }

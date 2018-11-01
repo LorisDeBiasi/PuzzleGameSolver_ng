@@ -7,12 +7,14 @@ export class Board {
 	private sizeX: number;
 	private sizeY: number;
 	private pieces: Piece[][];
+    private moveSinceCreated: Direction[];
 
 	//
 	public constructor(sizeX, sizeY: number) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        this.pieces = [];
+        this.pieces = new Array();
+        this.moveSinceCreated = new Array();
 
         let startingValue: number = 1;
 
@@ -43,10 +45,21 @@ export class Board {
     }
 
     //
+    public getMoveSinceCreated(): Direction[] {
+        return this.moveSinceCreated;
+    }
+
+    //
+    public resetMoveSinceCreated() {
+        this.moveSinceCreated = new Array();
+    }
+
+    //
     public loadBoard(newBoard: Board) {
         this.sizeX = newBoard.sizeX;
         this.sizeY = newBoard.sizeX;
         this.copyPieces(newBoard);
+        this.moveSinceCreated = Array.from(newBoard.moveSinceCreated);
     }
 
     private copyPieces(newBoard: Board) {
@@ -57,10 +70,12 @@ export class Board {
         }
     }
 
+    public addToMove(direction: Direction) {
+        this.moveSinceCreated.push(direction);
+    }
+
     //
     public randomizeBoard(nbOp: number) {
-        //var nbOp: number = getRndInteger(1, 100);
-
         for (var i = 0; i < nbOp; ++i) {
             let op: number = getRndInteger(1, 4);
 
@@ -83,7 +98,7 @@ export class Board {
 
     //
     public findZero(): number[] {
-        let zeroIndex: number[] = Array();
+        let zeroIndex: number[] = new Array();
 
         for (var y = 0; y < this.sizeY; ++y) {
             for (var x = 0; x < this.sizeX; ++x) {
@@ -128,24 +143,28 @@ export class Board {
             if (zeroIndex[0] > 0) {
                 this.pieces[zeroIndex[0]][zeroIndex[1]].setValue(this.pieces[zeroIndex[0]-1][zeroIndex[1]].getValue());
                 this.pieces[zeroIndex[0]-1][zeroIndex[1]].setValue(0);
+                this.addToMove(Direction.Up);
             }
         }
         else if (direction == Direction.Down) {
             if (zeroIndex[0] < this.sizeY-1) {
                 this.pieces[zeroIndex[0]][zeroIndex[1]].setValue(this.pieces[zeroIndex[0]+1][zeroIndex[1]].getValue());
                 this.pieces[zeroIndex[0]+1][zeroIndex[1]].setValue(0);
+                this.addToMove(Direction.Down);
             }
         }
         else if (direction == Direction.Left) {
             if (zeroIndex[1] > 0) {
                 this.pieces[zeroIndex[0]][zeroIndex[1]].setValue(this.pieces[zeroIndex[0]][zeroIndex[1]-1].getValue());
                 this.pieces[zeroIndex[0]][zeroIndex[1]-1].setValue(0);
+                this.addToMove(Direction.Left);
             }
         }
         else if (direction == Direction.Right) {
             if (zeroIndex[1] < this.sizeX-1) {
                 this.pieces[zeroIndex[0]][zeroIndex[1]].setValue(this.pieces[zeroIndex[0]][zeroIndex[1]+1].getValue());
                 this.pieces[zeroIndex[0]][zeroIndex[1]+1].setValue(0);
+                this.addToMove(Direction.Right);
             }
         }
     }
