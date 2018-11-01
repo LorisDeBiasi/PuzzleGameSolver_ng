@@ -22,6 +22,7 @@ export class HeuristicSearch extends Solver {
 		let nbMove: number = 0;
 
 		// 
+		//for (var i = 0; i < 2; ++i) {// used to debug
 		while (nodeQueue.length > 0 && !nodeQueue[0].isCleared(this.wantedBoard) && nbMove < this.maxMoves) {
 			//
 			let possibleMoves: boolean[] = nodeQueue[0].checkMoves();
@@ -168,8 +169,9 @@ export class HeuristicSearch extends Solver {
 
 		for (var y = 0; y < node.getBoardSizeY(); ++y) {
 			for (var x = 0; x < node.getBoardSizeX(); ++x) {
-				if (node.getPieceValue(y, x) != this.wantedBoard.getPieceValue(y, x)) {
-					wronglyPlacedPiecesSum += node.getPieceValue(y, x);
+				if (node.getPieceValue(y, x) != this.wantedBoard.getPieceValue(y, x)) {//dont check 0 ? i think so
+					let pos: number[] = this.wantedBoard.findValue(node.getPieceValue(y, x))
+					wronglyPlacedPiecesSum += Math.abs(y - pos[0]) + Math.abs(x - pos[1]);
 				}
 			}
 		}

@@ -96,19 +96,19 @@ export class Board {
     }
 
     //
-    public findZero(): number[] {
-        let zeroIndex: number[] = new Array();
+    public findValue(value: number): number[] {
+        let valueIndex: number[] = new Array();
 
         for (var y = 0; y < this.sizeY; ++y) {
             for (var x = 0; x < this.sizeX; ++x) {
-                if (this.pieces[y][x].getValue() == 0) {
-                    zeroIndex[0] = y;
-                    zeroIndex[1] = x;
+                if (this.pieces[y][x].getValue() == value) {
+                    valueIndex[0] = y;
+                    valueIndex[1] = x;
                 }
             }
         }
 
-        return zeroIndex;
+        return valueIndex;
     }
 
     //
@@ -116,7 +116,7 @@ export class Board {
         let zeroIndex: number[];
         let possibleMoves: boolean[] = new Array(false,false,false,false);//up, down, left, right
 
-        zeroIndex = this.findZero();
+        zeroIndex = this.findValue(0);
 
         if (zeroIndex[0] > 0) {
             possibleMoves[0] = true;
@@ -136,7 +136,7 @@ export class Board {
 
     //
     public movePiece(direction: Direction) {
-        let zeroIndex: number[] = this.findZero();
+        let zeroIndex: number[] = this.findValue(0);
 
         if (direction == Direction.Up) {
             if (zeroIndex[0] > 0) {

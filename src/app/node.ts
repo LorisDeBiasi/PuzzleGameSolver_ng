@@ -30,6 +30,10 @@ export class Node {
         return this.moveHistoric;
     }
 
+    /*public findValue(value: number): number[] {
+    	return this.board.findValue(value);
+    }*/
+
     //
     public resetMoveHistoric() {
         this.moveHistoric = new Array();
