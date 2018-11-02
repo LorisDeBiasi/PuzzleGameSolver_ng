@@ -13,18 +13,25 @@ export class Board {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.pieces = new Array();
+        this.generateClearBoard();
+    }
 
+    //
+    public generateClearBoard() {
+        let board: number[][] = new Array();
         let startingValue: number = 1;
 
-        //
-        for (var y = 0; y < this.sizeY; ++y) {
-        	this.pieces[y] = [];
-        	for (var x = 0; x < this.sizeX; ++x) {
-        		this.pieces[y][x] = new Piece(startingValue);
-        		startingValue++;
-        	}
+        for (var y = 0; y < this.getSizeY(); ++y) {
+            board[y] = new Array();
+            for (var x = 0; x < this.getSizeX(); ++x) {
+                board[y][x] = startingValue;
+                startingValue++;
+            }
         }
-        this.pieces[this.sizeY-1][this.sizeX-1] = new Piece(0);
+
+        board[this.getSizeY()-1][this.getSizeX()-1] = 0;
+
+        this.loadPieces(board);
     }
 
     //
@@ -57,14 +64,17 @@ export class Board {
     	return this.pieces;
     }
 
+    //
     public loadPieces(pieces: number[][]) {
         for (var y = 0; y < this.getSizeY(); ++y) {
+            this.pieces[y] = new Array();
             for (var x = 0; x < this.getSizeX(); ++x) {
-                this.pieces[y][x].setValue(pieces[y][x])
+                this.pieces[y][x] = new Piece(pieces[y][x]);
             }
         }
     }
 
+    //
     public copyPieces(newBoard: Board) {
         for (var y = 0; y < this.sizeY; ++y) {
             for (var x = 0; x < this.sizeX; ++x) {
@@ -80,17 +90,17 @@ export class Board {
 
             switch (op) {
                 case 1:
-                this.movePiece(Direction.Up);
-                break;
+                    this.movePiece(Direction.Up);
+                    break;
                 case 2:
-                this.movePiece(Direction.Down);
-                break;
+                    this.movePiece(Direction.Down);
+                    break;
                 case 3:
-                this.movePiece(Direction.Left);
-                break;
+                    this.movePiece(Direction.Left);
+                    break;
                 case 4:
-                this.movePiece(Direction.Right);
-                break;
+                    this.movePiece(Direction.Right);
+                    break;
             }
         }
     }
@@ -112,7 +122,7 @@ export class Board {
     }
 
     //
-    public checkMove(): boolean[] {
+    public getPossibleMoves(): boolean[] {
         let zeroIndex: number[];
         let possibleMoves: boolean[] = new Array(false,false,false,false);//up, down, left, right
 
@@ -165,18 +175,18 @@ export class Board {
     }
 
     //
-    public isCleared(board: Board): boolean {
-        let isCleared: boolean = true;
+    public isEqual(board: Board): boolean {
+        let isEqual: boolean = true;
 
         for (var y = 0; y < this.sizeY; ++y) {
             for (var x = 0; x < this.sizeX; ++x) {
                 if (this.pieces[y][x].getValue() != board.pieces[y][x].getValue()) {
-                    isCleared = false;
+                    isEqual = false;
                 }
             }
         }
 
-        return isCleared;
+        return isEqual;
     }
 }
 

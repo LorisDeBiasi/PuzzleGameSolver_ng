@@ -7,11 +7,13 @@ export class Node {
 	private heuristic: number;
 	private moveHistoric: Direction[];
 
+	//
 	public constructor(boardSizeY, boardSizeX: number) {
 		this.board = new Board(boardSizeY, boardSizeX);
 		this.moveHistoric = new Array();
 	}
 
+	//
 	public getPieceValue(y, x: number) {
 		return this.board.getPieceValue(y, x);
 	}
@@ -21,6 +23,7 @@ export class Node {
     	return this.board.getPieces();
     }
 
+    //
     public addToMoveHistoric(direction: Direction) {
     	this.moveHistoric.push(direction);
     }
@@ -30,19 +33,17 @@ export class Node {
         return this.moveHistoric;
     }
 
-    /*public findValue(value: number): number[] {
-    	return this.board.findValue(value);
-    }*/
-
     //
     public resetMoveHistoric() {
         this.moveHistoric = new Array();
     }
 
+    //
     public getHeuristic(): number {
         return this.heuristic;
     }
 
+    //
     public setHeuristic(value: number) {
         this.heuristic = value;
     }
@@ -55,26 +56,32 @@ export class Node {
         this.moveHistoric = Array.from(node.moveHistoric);
     }
 
+    //
     public randomizeBoard(nbOp: number) {
     	this.board.randomizeBoard(nbOp);
     }
 
-    public isCleared(board: Board) {
-    	return this.board.isCleared(board);
+    //
+    public isEqual(board: Board) {
+    	return this.board.isEqual(board);
     }
 
-    public checkMoves() {
-    	return this.board.checkMove();
+    //
+    public getPossibleMoves() {
+    	return this.board.getPossibleMoves();
     }
 
+    //
     public getBoardSizeY() {
     	return this.board.getSizeY();
     }
 
+    //
     public getBoardSizeX() {
     	return this.board.getSizeX();
     }
 
+    //
     public movePiece(direction: Direction) {
     	this.board.movePiece(direction);
     	this.addToMoveHistoric(direction)

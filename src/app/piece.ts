@@ -8,10 +8,12 @@ export class Piece {
         this.value = value;
     }
 
+    //
     public getValue() {
     	return this.value;
     }
 
+    //
     public setValue(value: number) {
     	return this.value = value;
     }

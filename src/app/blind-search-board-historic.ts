@@ -4,10 +4,14 @@ import { Direction } from './direction';
 import { Node } from './node';
 import { Solver } from './solver';
 
-export class BlindSearch extends Solver {
-    //
+export class BlindSearchBoardHistoric extends Solver {
+	//
 	public setup() {
-		
+		//
+		this.seenBoard = new Array();
+
+        //
+        this.addToSeenBoard(this.node.getPieces());
 	}
 
     //
@@ -17,7 +21,9 @@ export class BlindSearch extends Solver {
 
     //
     public process(nodeQueue: Node[], node: Node) {
-    	// Add the board to the queue
-		nodeQueue.push(node)
+    	if (!this.existInSeenBoard(node)) {
+			// Add the board to the queue
+			nodeQueue.push(node)
+		}
     };
 }

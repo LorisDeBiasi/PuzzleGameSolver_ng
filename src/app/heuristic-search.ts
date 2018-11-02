@@ -5,121 +5,40 @@ import { Direction } from './direction';
 import { Solver } from './solver';
 
 export class HeuristicSearch extends Solver {
-
-	public clearPuzzle() {
+	//
+	public setup() {
 		//
-		let nodeQueue: Node[] = new Array();
-		nodeQueue.push(this.node);
+		this.node.setHeuristic(this.wronglyPlacedPiecesSum(this.node))
 
 		//
 		this.seenBoard = new Array();
-		this.addToSeenBoard(this.node.getPieces());
 
-		//
-		nodeQueue[0].resetMoveHistoric();
-
-		//
-		let nbMove: number = 0;
-
-		// 
-		//for (var i = 0; i < 2; ++i) {// used to debug
-		while (nodeQueue.length > 0 && !nodeQueue[0].isCleared(this.wantedBoard) && nbMove < this.maxMoves) {
-			//
-			let possibleMoves: boolean[] = nodeQueue[0].checkMoves();
-			nbMove++;
-
-			// up
-			if (possibleMoves[0]) {
-				let tmp: Node = new Node(nodeQueue[0].getBoardSizeY(), nodeQueue[0].getBoardSizeX());
-
-				// Create a copy of the current board
-				tmp.copyNode(nodeQueue[0]);
-
-				// Move the piece
-				tmp.movePiece(Direction.Up);
-
-				if (!this.existInSeenBoard(tmp)) {
-					//
-					tmp.setHeuristic(this.wronglyPlacedPiecesSum(tmp))
-
-					// Add the board to the queue
-					nodeQueue.push(tmp)
-				}
-			}
-
-			// down
-			if (possibleMoves[1]) {
-				let tmp: Node = new Node(nodeQueue[0].getBoardSizeY(), nodeQueue[0].getBoardSizeX());
-
-				// Create a copy of the current board
-				tmp.copyNode(nodeQueue[0]);
-
-				// Move the piece
-				tmp.movePiece(Direction.Down);
-
-				if (!this.existInSeenBoard(tmp)) {
-					//
-					tmp.setHeuristic(this.wronglyPlacedPiecesSum(tmp))
-
-					// Add the board to the queue
-					nodeQueue.push(tmp)
-				}
-			}
-
-			// left
-			if (possibleMoves[2]) {
-				let tmp: Node = new Node(nodeQueue[0].getBoardSizeY(), nodeQueue[0].getBoardSizeX());
-
-				// Create a copy of the current board
-				tmp.copyNode(nodeQueue[0]);
-
-				// Move the piece
-				tmp.movePiece(Direction.Left);
-
-				if (!this.existInSeenBoard(tmp)) {
-					//
-					tmp.setHeuristic(this.wronglyPlacedPiecesSum(tmp))
-
-					// Add the board to the queue
-					nodeQueue.push(tmp)
-				}
-			}
-
-			// right
-			if (possibleMoves[3]) {
-				let tmp: Node = new Node(nodeQueue[0].getBoardSizeY(), nodeQueue[0].getBoardSizeX());
-
-				// Create a copy of the current board
-				tmp.copyNode(nodeQueue[0]);
-
-				// Move the piece
-				tmp.movePiece(Direction.Right);
-
-				if (!this.existInSeenBoard(tmp)) {
-					//
-					tmp.setHeuristic(this.wronglyPlacedPiecesSum(tmp))
-
-					// Add the board to the queue
-					nodeQueue.push(tmp)
-				}
-			}
-
-			// Remove first item from array
-			nodeQueue.shift();
-			console.log("loop");
-		}
-
-		//sort queue a chaque iteration
-		this.sortNode(nodeQueue);
-
-		console.log(nodeQueue);
-		return new Array(String(nbMove), String(nodeQueue[0].getMoveHistoric()));
+        //
+        this.addToSeenBoard(this.node.getPieces());
 	}
 
+    //
+    public sortingAlgorithm(nodeQueue: Node[]) {
+    	this.sortNode(nodeQueue);
+    };
+
+    //
+    public process(nodeQueue: Node[], node: Node) {
+    	if (!this.existInSeenBoard(node)) {
+			//
+			node.setHeuristic(this.wronglyPlacedPiecesSum(node));
+
+			// Add the board to the queue
+			nodeQueue.push(node);
+		}
+    };
+
+	//
 	private sortNode(nodeQueue: Node[]) {
 		this.quickSort(nodeQueue, 0, nodeQueue.length-1);
 	}
 
+	//
 	private quickSort(nodeQueue: Node[], first, last: number) {
 		if (first < last) {
 			let p: number = this.partition(nodeQueue, first, last);
@@ -128,6 +47,7 @@ export class HeuristicSearch extends Solver {
 		}
 	}
 
+	//
 	private partition(nodeQueue: Node[], first, last: number) {
 		let pivot: number = nodeQueue[last].getHeuristic();
 		let i: number = first;
@@ -150,6 +70,7 @@ export class HeuristicSearch extends Solver {
 		return i;
 	}
 
+	//
 	private nbPiecesWronglyPlaced(node: Node): number {
 		let nbPiecesWronglyPlaced: number = 0;
 
@@ -164,6 +85,7 @@ export class HeuristicSearch extends Solver {
 		return nbPiecesWronglyPlaced;
 	}
 
+	//
 	private wronglyPlacedPiecesSum(node: Node): number {
 		let wronglyPlacedPiecesSum: number = 0;
 

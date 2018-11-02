@@ -5,36 +5,39 @@
 </div>
 
 <div class="container">
-  <table class="table">
-    <tbody>
+  <div class="row">
+    <table class="table">
+      <tbody>
 
-      <tr *ngFor="let line of solver.getPieces()">
-        <td *ngFor="let piece of line">
-          <input type="text" [(ngModel)]="piece.value">
-        </td>
-      </tr>
+        <tr *ngFor="let line of solver.getPieces()">
+          <td *ngFor="let piece of line">
+            <input type="text" class="form-control" [(ngModel)]="piece.value">
+          </td>
+        </tr>
 
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 
-  <button style="margin-left: 1cm" (click)="this.solver.node.movePiece(direction.Up)">up</button><br>
-  <button (click)="this.solver.node.movePiece(direction.Left)">left</button>
-  <button style="margin-left: 0.9cm" (click)="this.solver.node.movePiece(direction.Right)">right</button><br>
-  <button style="margin-left: 0.8cm" (click)="this.solver.node.movePiece(direction.Down)">down</button>
+  <div class="row">
+    <div class="col-md-4">
+      <button class="btn btn-primary" style="margin-left: 55px; margin-bottom: 4px; width: 60px" (click)="this.solver.node.movePiece(direction.Up)">up</button><br>
+      <button class="btn btn-primary" style="width: 60px" (click)="this.solver.node.movePiece(direction.Left)">left</button>
+      <button class="btn btn-primary" style="margin-left: 50px; width: 60px" (click)="this.solver.node.movePiece(direction.Right)">right</button><br>
+      <button class="btn btn-primary" style="margin-left: 55px; margin-top: 4px; width: 60px" (click)="this.solver.node.movePiece(direction.Down)">down</button>
+    </div>
 
-  <br><br>
+    <div class="col-md-4">
+      <button class="btn btn-primary" (click)="this.solver.randomizeBoard(nbRandomize)">randomize</button><br>
+      <label>Number of random steps</label>
+      <input type="text" style="width: 200px;" class="form-control" [(ngModel)]="nbRandomize">
+    </div>
 
-  <button (click)="this.solver.randomizeBoard(nbRandomize)">randomize</button>
-  <input type="text" [(ngModel)]="nbRandomize">
-
-  <!--<button (click)="isCleared = this.solver.board.isCleared()">isCleared</button>
-  <button (click)="checkMove = this.solver.board.checkMove()">checkMove</button>
-  <p>is cleared : {{isCleared}}</p>
-  <p>possible moves : {{checkMove}}</p>-->
-
-  <br><br>
-  <button (click)="result = this.solver.clearPuzzle()">Solve</button>
-  <p>number of states explored : {{result[0]}}</p>
-  <p>list of moves : {{result[1]}}</p>
+    <div class="col-md-4">
+      <button class="btn btn-primary" (click)="result = this.solver.clearPuzzle()">Solve</button>
+      <p>number of states explored : {{result[0]}}</p>
+      <p style="word-break: break-all;" >list of moves : {{result[1]}}</p>
+    </div>
+  </div>
 
 </div>

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Direction } from './direction';
 import { Solver } from './solver';
-import { HeuristicSearch } from './heuristic-search';
 import { BlindSearch } from './blind-search';
+import { BlindSearchBoardHistoric } from './blind-search-board-historic';
+import { HeuristicSearch } from './heuristic-search';
 
 @Component({
   selector: 'app-root',
@@ -12,15 +13,16 @@ import { BlindSearch } from './blind-search';
 
 export class AppComponent {
   title = 'PuzzleGame';
-  //solver = new BlindSearch(3, 3);
-  solver = new HeuristicSearch(3, 3);
 
-  //Store a reference to the enum
+  //
+  solver = new HeuristicSearch(4, 4);
+
+  // Store a reference to the enum
   direction = Direction;
 
   // Create an empty result (used to store clearPuzzle)
   result = [];
 
-  // default value
+  // default number of randomize
   nbRandomize = 10;
 }
