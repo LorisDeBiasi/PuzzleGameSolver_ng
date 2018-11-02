@@ -7,13 +7,14 @@ import { Solver } from './solver';
 export class HeuristicSearch extends Solver {
 	//
 	public setup() {
-		//
+		// Set the heuristic value of the node
+		//node.setHeuristic(this.nbPiecesWronglyPlaced(node));
 		this.node.setHeuristic(this.wronglyPlacedPiecesSum(this.node))
 
-		//
+		// Instanciate the seen board
 		this.seenBoard = new Array();
 
-        //
+        // Add the node to the seen board
         this.addToSeenBoard(this.node.getPieces());
 	}
 
@@ -25,7 +26,8 @@ export class HeuristicSearch extends Solver {
     //
     public process(nodeQueue: Node[], node: Node) {
     	if (!this.existInSeenBoard(node)) {
-			//
+			// Set the heuristic value of the node
+			//node.setHeuristic(this.nbPiecesWronglyPlaced(node));
 			node.setHeuristic(this.wronglyPlacedPiecesSum(node));
 
 			// Add the board to the queue
@@ -33,12 +35,12 @@ export class HeuristicSearch extends Solver {
 		}
     };
 
-	//
+	// Quicksort the nodeQueue
 	private sortNode(nodeQueue: Node[]) {
 		this.quickSort(nodeQueue, 0, nodeQueue.length-1);
 	}
 
-	//
+	// Quicksort algorithm
 	private quickSort(nodeQueue: Node[], first, last: number) {
 		if (first < last) {
 			let p: number = this.partition(nodeQueue, first, last);
@@ -47,7 +49,7 @@ export class HeuristicSearch extends Solver {
 		}
 	}
 
-	//
+	// Used to partition the nodeQueue for quicksort
 	private partition(nodeQueue: Node[], first, last: number) {
 		let pivot: number = nodeQueue[last].getHeuristic();
 		let i: number = first;
@@ -70,7 +72,7 @@ export class HeuristicSearch extends Solver {
 		return i;
 	}
 
-	//
+	// Return the number of pieces wrongly placed
 	private nbPiecesWronglyPlaced(node: Node): number {
 		let nbPiecesWronglyPlaced: number = 0;
 
@@ -85,7 +87,7 @@ export class HeuristicSearch extends Solver {
 		return nbPiecesWronglyPlaced;
 	}
 
-	//
+	// Return the sum of the pieces wrongly placed
 	private wronglyPlacedPiecesSum(node: Node): number {
 		let wronglyPlacedPiecesSum: number = 0;
 

@@ -16,7 +16,7 @@ export class Board {
         this.generateClearBoard();
     }
 
-    //
+    // Generate a clear board
     public generateClearBoard() {
         let board: number[][] = new Array();
         let startingValue: number = 1;
@@ -34,37 +34,37 @@ export class Board {
         this.loadPieces(board);
     }
 
-    //
+    // Get the x size
     public getSizeX(): number {
         return this.sizeX;
     }
 
-    //
+    // Get the y size
     public getSizeY(): number {
         return this.sizeY;
     }
 
-    //
+    // Set the x size
     public setSizeX(value: number) {
         return this.sizeX = value;
     }
 
-    //
+    // Set the y size
     public setSizeY(value: number) {
         return this.sizeY = value;
     }
 
-    //
+    // Get a piece value
     public getPieceValue(y, x: number): number {
         return this.pieces[y][x].getValue();
     }
 
-    //
+    // Get the pieces
     public getPieces(): Piece[][] {
     	return this.pieces;
     }
 
-    //
+    // Load pieces
     public loadPieces(pieces: number[][]) {
         for (var y = 0; y < this.getSizeY(); ++y) {
             this.pieces[y] = new Array();
@@ -74,7 +74,7 @@ export class Board {
         }
     }
 
-    //
+    // Copy the pieces of a board
     public copyPieces(newBoard: Board) {
         for (var y = 0; y < this.sizeY; ++y) {
             for (var x = 0; x < this.sizeX; ++x) {
@@ -83,7 +83,7 @@ export class Board {
         }
     }
 
-    //
+    // Randomize the position of some piece
     public randomizeBoard(nbOp: number) {
         for (var i = 0; i < nbOp; ++i) {
             let op: number = getRndInteger(1, 4);
@@ -105,7 +105,7 @@ export class Board {
         }
     }
 
-    //
+    // Return the x and y position of a wanted value
     public findValue(value: number): number[] {
         let valueIndex: number[] = new Array();
 
@@ -121,7 +121,7 @@ export class Board {
         return valueIndex;
     }
 
-    //
+    // Return an array containing the possible moves
     public getPossibleMoves(): boolean[] {
         let zeroIndex: number[];
         let possibleMoves: boolean[] = new Array(false,false,false,false);//up, down, left, right
@@ -144,7 +144,7 @@ export class Board {
         return possibleMoves;
     }
 
-    //
+    // Move a piece (if possible)
     public movePiece(direction: Direction) {
         let zeroIndex: number[] = this.findValue(0);
 
@@ -174,7 +174,7 @@ export class Board {
         }
     }
 
-    //
+    // Check if the current board is equal to another
     public isEqual(board: Board): boolean {
         let isEqual: boolean = true;
 

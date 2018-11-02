@@ -14,8 +14,7 @@ import { HeuristicSearch } from './heuristic-search';
 export class AppComponent {
   title = 'PuzzleGame';
 
-  //
-  solver = new HeuristicSearch(4, 4);
+  solver = new HeuristicSearch(3, 3);
 
   // Store a reference to the enum
   direction = Direction;
